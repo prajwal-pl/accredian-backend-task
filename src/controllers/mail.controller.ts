@@ -1,8 +1,6 @@
-import axios from "axios";
 import nodemailer from "nodemailer";
 import { google } from "googleapis";
 import { RequestHandler } from "express";
-import SMTPConnection from "nodemailer/lib/smtp-connection";
 import { PrismaClient } from "@prisma/client";
 
 const oAuthClient = new google.auth.OAuth2(
@@ -18,6 +16,12 @@ oAuthClient.setCredentials({ refresh_token: process.env.REFRESH_TOKEN });
 export const sendMail: RequestHandler = async (req, res) => {
   const { toMail, toName, fromMail, fromName, body } = req.body;
   try {
+    if (!toMail || !toName || !fromMail || !fromName || !body) {
+      res.status(400).json({
+        message: "Please Provide All the Required Fields",
+      });
+      return;
+    }
     const transport = nodemailer.createTransport({
       service: "Gmail",
       auth: {
@@ -69,6 +73,6 @@ export const sendMail: RequestHandler = async (req, res) => {
     console.log(result);
   } catch (error) {
     console.log(error);
-    res.send(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
