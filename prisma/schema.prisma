@@ -13,10 +13,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Status {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model Mail {
   id        String   @id @default(uuid())
-  from      String
-  to        String
+  fromName  String
+  fromMail  String
+  toName    String
+  toMail    String
   body      String
+  status    Status   @default(PENDING)
   createdAt DateTime @default(now())
 }
