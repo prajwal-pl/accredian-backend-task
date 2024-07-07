@@ -1,12 +1,12 @@
 {
   "name": "accredian-backend-task",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "server": "ts-node src/server.ts",
-    "dev": "nodemon src/server.ts",
+    "dev": "nodemon  src/server.ts",
     "build": "tsc --build && npm install && prisma generate --schema=./prisma/schema.prisma",
-    "start": "node dist/src/dist/server.js"
+    "start": "node ./dist/src/server.js "
   },
   "keywords": [],
   "author": "",
